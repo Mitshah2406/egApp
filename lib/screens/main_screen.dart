@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:training_app/providers/main_provider.dart';
 import 'package:training_app/widgets/category_grid.dart';
 import 'package:training_app/widgets/header.dart';
 import 'package:training_app/widgets/carousel.dart';
 // import 'package:training_app/widgets/my_app_bar.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends ConsumerWidget {
   const MainScreen({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
-}
-
-class _MainScreenState extends State<MainScreen> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final programs = ref.watch(programsProvider);
+    final lessons = ref.watch(lessonsProvider);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.secondaryContainer,
       appBar: AppBar(
@@ -88,28 +87,34 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ],
       ),
-      body: const SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
-            Header(),
-            SizedBox(
+            const Header(),
+            const SizedBox(
               height: 16,
             ),
-            CategoryGrid(),
-            SizedBox(
+            const CategoryGrid(),
+            const SizedBox(
               height: 16,
             ),
             Carousel(
+              carouselTitle: "Programs For You",
               iconSlides: false,
               buttonSlides: false,
+              carouselData: programs,
             ),
             Carousel(
+              carouselTitle: "Events And Experiences",
               iconSlides: false,
               buttonSlides: true,
+              carouselData: programs,
             ),
             Carousel(
+              carouselTitle: "Lessons For You",
               iconSlides: true,
               buttonSlides: false,
+              carouselData: lessons,
             ),
           ],
         ),
